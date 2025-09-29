@@ -1,6 +1,7 @@
-langchain-core==0.3.0
-langchain-openai==0.2.0
-langgraph==0.2.22
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+langgraph>=0.2.22
 python-pptx==1.0.2
 ipython
 python-dotenv
+pydantic>=2.0.0
