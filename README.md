@@ -16,7 +16,8 @@ LangChainとLangGraphを使用して、ユーザーの入力からパワーポ�
 
 ## 環境
 
-- Python 3.10以上
+- **Python 3.10 - 3.12** (推奨)
+  - ⚠️ Python 3.13は現時点で非対応の可能性があります
 - OpenAI API Key が必要
 
 ## セットアップ
@@ -32,6 +33,13 @@ cd pptx-agent
 
 ```bash
 pip install -r requirements.txt
+```
+
+もしエラーが出る場合は、以下のコマンドを試してください：
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt --upgrade
 ```
 
 ### 3. APIキーの設定
@@ -102,7 +110,7 @@ pptx-agent/
 ├── story_generator.py             # ストーリー作成ノード
 ├── story_evaluator.py             # ストーリー評価ノード
 ├── slide_contents_generator.py    # スライド内容作成ノード
-└── pptx_code_generator.py         # Pythonコード作成ノード
+└── pptx_code_generator.py         # Pythonコード生成ノード
 ```
 
 ## ワークフロー
@@ -115,21 +123,52 @@ pptx-agent/
 
 ## トラブルシューティング
 
-### API Keyエラーが出る場合
+### 1. API Keyエラーが出る場合
 
 ```
 エラー: OPENAI_API_KEY環境変数が設定されていません
 ```
 
-→ `.env` ファイルが正しく作成されているか確認してください
+**解決方法**: `.env` ファイルが正しく作成されているか確認してください
 
-### モジュールが見つからないエラー
+### 2. Pydanticエラーが出る場合
+
+```
+PydanticUserError: `ChatOpenAI` is not fully defined
+```
+
+**原因**: Python 3.13またはライブラリのバージョン不整合
+
+**解決方法**:
+```bash
+# ライブラリを再インストール
+pip uninstall langchain-core langchain-openai langgraph pydantic -y
+pip install -r requirements.txt --upgrade
+
+# それでもエラーが出る場合は、Python 3.12以下を使用してください
+```
+
+### 3. モジュールが見つからないエラー
 
 ```
 ModuleNotFoundError: No module named 'xxx'
 ```
 
-→ `pip install -r requirements.txt` を再度実行してください
+**解決方法**: 
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Python 3.13を使っている場合
+
+Python 3.13はまだ一部のライブラリが対応していない可能性があります。
+
+**推奨**: Python 3.10、3.11、または3.12を使用してください。
+
+Pythonのバージョン確認:
+```bash
+python --version
+```
 
 ## 改善案
 
