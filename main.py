@@ -1,7 +1,11 @@
 import argparse
 import os
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from pptx_agent import PPTXAgent
+
+# .envファイルから環境変数を読み込む
+load_dotenv()
 
 
 def main():
@@ -24,8 +28,12 @@ def main():
     # OpenAI API Keyの確認
     if not os.getenv("OPENAI_API_KEY"):
         print("エラー: OPENAI_API_KEY環境変数が設定されていません")
-        print("以下のコマンドで設定してください:")
-        print('export OPENAI_API_KEY="your-api-key"')
+        print("\n設定方法:")
+        print("1. プロジェクトルートに .env ファイルを作成")
+        print("2. 以下の内容を記述:")
+        print('   OPENAI_API_KEY=your-api-key-here')
+        print("\nまたは、コマンドラインで設定:")
+        print('   export OPENAI_API_KEY="your-api-key"')
         return
 
     # テキストの取得
