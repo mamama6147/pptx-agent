@@ -19,44 +19,91 @@ LangChainとLangGraphを使用して、ユーザーの入力からパワーポ�
 - Python 3.10以上
 - OpenAI API Key が必要
 
-## インストール
+## セットアップ
+
+### 1. リポジトリをクローン
+
+```bash
+git clone https://github.com/mamama6147/pptx-agent.git
+cd pptx-agent
+```
+
+### 2. 必要なライブラリをインストール
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 環境変数の設定
+### 3. APIキーの設定
+
+プロジェクトルートに `.env` ファイルを作成し、OpenAI API Keyを設定します:
 
 ```bash
-export OPENAI_API_KEY="your-api-key"
+# .envファイルを作成
+cp .env.example .env
 ```
+
+`.env` ファイルを編集して、実際のAPIキーを設定:
+
+```
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxx
+```
+
+**注意**: `.env` ファイルは `.gitignore` に含まれているため、Gitにコミットされません。
+
+#### APIキーの取得方法
+
+1. [OpenAI Platform](https://platform.openai.com/) にアクセス
+2. アカウントを作成/ログイン
+3. API Keys セクションで新しいキーを生成
 
 ## 使い方
 
-1. プレゼンしたい内容をテキストファイルに記述(.txt, .md, .docx)
-2. 以下のコマンドで実行:
+### 基本的な使い方
 
-```bash
-python main.py --file input.txt
+1. プレゼンしたい内容をテキストファイルに記述(.txt, .md, .docx)
+
+```txt
+AIエージェントの基礎について、初心者向けのプレゼンテーションを作成してください。
+
+以下の内容を含めてください:
+- AIエージェントとは何か
+- AIエージェントの基本的な構成要素
+- 実際の活用事例
+- 今後の展望
 ```
 
-3. `output/create_pptx.py` が生成されるので実行:
+2. エージェントを実行:
+
+```bash
+python main.py --file example_input.txt
+```
+
+3. 生成された `output/create_pptx.py` を実行:
 
 ```bash
 python output/create_pptx.py
 ```
 
-4. パワーポイントファイルが生成されます!
+4. `output.pptx` が生成されます!
 
 ## ファイル構成
 
-- `datamodel.py`: データモデルの定義
-- `story_generator.py`: ストーリー作成ノード
-- `story_evaluator.py`: ストーリー評価ノード
-- `slide_contents_generator.py`: スライド内容作成ノード
-- `pptx_code_generator.py`: Pythonコード作成ノード
-- `pptx_agent.py`: ワークフロー(グラフ)の定義
-- `main.py`: 実行ファイル
+```
+pptx-agent/
+├── README.md                      # このファイル
+├── requirements.txt               # 必要なライブラリ
+├── .env.example                   # 環境変数のテンプレート
+├── .gitignore                     # Git管理除外設定
+├── example_input.txt              # サンプル入力ファイル
+├── main.py                        # 実行ファイル
+├── pptx_agent.py                  # ワークフロー(グラフ)の定義
+├── datamodel.py                   # データモデルの定義
+├── story_generator.py             # ストーリー作成ノード
+├── story_evaluator.py             # ストーリー評価ノード
+├── slide_contents_generator.py    # スライド内容作成ノード
+└── pptx_code_generator.py         # Pythonコード作成ノード
+```
 
 ## ワークフロー
 
@@ -66,7 +113,27 @@ python output/create_pptx.py
                     (評価NGの場合、最大5回まで)
 ```
 
+## トラブルシューティング
+
+### API Keyエラーが出る場合
+
+```
+エラー: OPENAI_API_KEY環境変数が設定されていません
+```
+
+→ `.env` ファイルが正しく作成されているか確認してください
+
+### モジュールが見つからないエラー
+
+```
+ModuleNotFoundError: No module named 'xxx'
+```
+
+→ `pip install -r requirements.txt` を再度実行してください
+
 ## 改善案
+
+記事で提案されている改善案:
 
 - パワーポイントテンプレートの使用
 - 画像のプリセット or AI生成
